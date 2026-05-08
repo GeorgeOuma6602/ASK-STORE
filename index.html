@@ -1,0 +1,782 @@
+<style>
+    :root {
+        --primary: #D4AF37; /* Gold */
+        --bg-dark: #000000;
+        --text-light: #FFFFFF;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(212, 175, 55, 0.2);
+        --transition: all 0.3s ease;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--bg-dark);
+        color: var(--text-light);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* Utility */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 28px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        cursor: pointer;
+        border: none;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        color: var(--bg-dark);
+    }
+
+    .btn-primary:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-outline {
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        background: transparent;
+    }
+
+    .btn-outline:hover {
+        background: var(--primary);
+        color: var(--bg-dark);
+    }
+
+    /* Sticky Header */
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .nav-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+        color: var(--primary);
+    }
+
+    .hamburger {
+        display: none;
+        font-size: 1.5rem;
+        color: var(--primary);
+        cursor: pointer;
+    }
+
+    /* Hero Section */
+    #hero {
+        padding-top: 150px;
+        padding-bottom: 100px;
+        display: flex;
+        align-items: center;
+        min-height: 90vh;
+    }
+
+    .hero-content {
+        flex: 1;
+    }
+
+    .hero-visual {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-badge {
+        background: var(--glass-bg);
+        border: 1px solid var(--primary);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        line-height: 1.1;
+        margin-bottom: 20px;
+    }
+
+    h1 span {
+        color: var(--primary);
+    }
+
+    .tagline {
+        font-size: 1.2rem;
+        color: #ccc;
+        margin-bottom: 30px;
+    }
+
+    .hero-btns {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 40px;
+    }
+
+    .trust-badges {
+        display: flex;
+        gap: 20px;
+        font-size: 0.85rem;
+        color: #888;
+    }
+
+    .trust-badges i {
+        color: var(--primary);
+        margin-right: 5px;
+    }
+
+    .featured-preview {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 20px;
+        width: 320px;
+        text-align: center;
+        backdrop-filter: blur(5px);
+    }
+
+    .featured-preview img {
+        width: 100%;
+        border-radius: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* Products Grid */
+    #products {
+        padding: 100px 0;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .section-title .underline {
+        width: 80px;
+        height: 4px;
+        background: var(--primary);
+        margin: 0 auto;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    .card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border-color: var(--primary);
+    }
+
+    .card-img {
+        height: 250px;
+        overflow: hidden;
+    }
+
+    .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: crop;
+        transition: var(--transition);
+    }
+
+    .card-body {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: var(--primary);
+    }
+
+    .card-desc {
+        font-size: 0.9rem;
+        color: #aaa;
+        margin-bottom: 20px;
+    }
+
+    .card-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .price {
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+    .whatsapp-btn-sm {
+        background: #25D366;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* About Section */
+    #about {
+        padding: 100px 0;
+        background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('[https://images.unsplash.com/photo-1523474253046-2cd2c788f3ff?w=1200&auto=format&fit=crop](https://images.unsplash.com/photo-1523474253046-2cd2c788f3ff?w=1200&auto=format&fit=crop)');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .about-flex {
+        display: flex;
+        gap: 50px;
+        align-items: center;
+    }
+
+    .how-works {
+        list-style: none;
+        margin-top: 30px;
+    }
+
+    .how-works li {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .step-num {
+        background: var(--primary);
+        color: var(--bg-dark);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    /* Contact Section */
+    #contact {
+        padding: 100px 0;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+    }
+
+    .contact-info h3 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .social-links {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .social-links a {
+        color: var(--text-light);
+        font-size: 1.5rem;
+        transition: var(--transition);
+    }
+
+    .social-links a:hover {
+        color: var(--primary);
+    }
+
+    .contact-form {
+        background: var(--glass-bg);
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid var(--glass-border);
+        border-radius: 8px;
+        color: white;
+        font-family: inherit;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+    /* Floating WhatsApp */
+    .whatsapp-float {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #25D366;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        z-index: 999;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .whatsapp-float:hover {
+        transform: scale(1.1);
+    }
+
+    /* Footer */
+    footer {
+        padding: 40px 0;
+        border-top: 1px solid var(--glass-border);
+        text-align: center;
+        color: #666;
+    }
+
+    /* Toast */
+    #toast {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: var(--primary);
+        color: var(--bg-dark);
+        text-align: center;
+        border-radius: 8px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1001;
+        left: 50%;
+        bottom: 30px;
+        transform: translateX(-50%);
+        font-weight: 600;
+    }
+
+    #toast.show {
+        visibility: visible;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+    @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .grid { grid-template-columns: repeat(2, 1fr); }
+        #hero { flex-direction: column; text-align: center; padding-top: 120px; }
+        .hero-btns, .trust-badges { justify-content: center; }
+        .hero-visual { display: none; }
+        .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+        .nav-links { display: none; }
+        .hamburger { display: block; }
+        .grid { grid-template-columns: 1fr; }
+        h1 { font-size: 2.8rem; }
+        .about-flex { flex-direction: column; }
+    }
+</style>
+<!-- Header -->
+<header>
+    <div class="container">
+        <nav>
+            <a href="#" class="logo">
+                <i class="fa-solid fa-star"></i> ASK
+            </a>
+            <div class="nav-links">
+                <a href="#hero">Home</a>
+                <a href="#products">Products</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#products" class="btn btn-primary" style="padding: 8px 20px;">Shop Now</a>
+            </div>
+            <div class="hamburger">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero -->
+<section id="hero">
+    <div class="container" style="display: flex; gap: 40px; align-items: center;">
+        <div class="hero-content">
+            <span class="hero-badge">Curated Kenyan Excellence</span>
+            <h1>Local <span>Premium</span> Products Delivered Fast</h1>
+            <p class="tagline">Sourcing the finest craftsmanship from Nairobi makers to your doorstep with unmatched speed.</p>
+            <div class="hero-btns">
+                <a href="#products" class="btn btn-primary">Shop Products</a>
+                <a href="[https://wa.me/254790500904](https://wa.me/254790500904)" target="_blank" class="btn btn-outline">
+                    <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+                </a>
+            </div>
+            <div class="trust-badges">
+                <span><i class="fa-solid fa-truck-fast"></i> Free Nairobi Delivery > 2k</span>
+                <span><i class="fa-solid fa-shield-check"></i> Secure Local Payments</span>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="featured-preview">
+                <img src="[https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop)" alt="Featured Artisan Soap">
+                <h4 style="color:var(--primary)">Featured This Week</h4>
+                <p style="font-size: 0.9rem; margin: 10px 0;">Turmeric Glowing Bar Soap</p>
+                <p class="price">KSh 250</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products -->
+<section id="products">
+    <div class="container">
+        <div class="section-title">
+            <h2>Premium Collection</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="grid">
+            <!-- Product 1 -->
+            <div class="card">
+                <div class="card-img">
+                    <img src="[https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=800&auto=format&fit=crop)" alt="Turmeric Soap">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Turmeric Glowing Bar Soap</h3>
+                    <p class="card-desc">✨ Brightens skin, 🍃 fades dark spots, 👩 natural & gentle.</p>
+                    <div class="card-footer">
+                        <span class="price">KSh 250</span>
+                        <a href="[https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Turmeric%20Glowing%20Bar%20Soap](https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Turmeric%20Glowing%20Bar%20Soap)" class="whatsapp-btn-sm">
+                            <i class="fa-brands fa-whatsapp"></i> Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="card">
+                <div class="card-img">
+                    <img src="[https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=800&auto=format&fit=crop)" alt="Flower Pots">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Flower Pots (Set of 3)</h3>
+                    <p class="card-desc">Perfect for home décor and indoor plants. Minimalist aesthetic.</p>
+                    <div class="card-footer">
+                        <span class="price">KSh 2,500</span>
+                        <a href="[https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Flower%20Pots%20Set](https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Flower%20Pots%20Set)" class="whatsapp-btn-sm">
+                            <i class="fa-brands fa-whatsapp"></i> Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="card">
+                <div class="card-img">
+                    <img src="[https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&auto=format&fit=crop)" alt="Ceramic Plate">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Ceramic Serving Plate</h3>
+                    <p class="card-desc">Handmade by local artisans, featuring a unique glaze finish.</p>
+                    <div class="card-footer">
+                        <span class="price">KSh 1,200</span>
+                        <a href="[https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Ceramic%20Serving%20Plate](https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Ceramic%20Serving%20Plate)" class="whatsapp-btn-sm">
+                            <i class="fa-brands fa-whatsapp"></i> Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="card">
+                <div class="card-img">
+                    <img src="[https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop)" alt="Coffee Beans">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Local Coffee Beans 250g</h3>
+                    <p class="card-desc">Fresh roasted, bold Kenyan flavour from the highlands.</p>
+                    <div class="card-footer">
+                        <span class="price">KSh 550</span>
+                        <a href="[https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Kenyan%20Coffee%20Beans](https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Kenyan%20Coffee%20Beans)" class="whatsapp-btn-sm">
+                            <i class="fa-brands fa-whatsapp"></i> Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="card">
+                <div class="card-img">
+                    <img src="[https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&auto=format&fit=crop)" alt="Beaded Necklace">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Beaded Necklace</h3>
+                    <p class="card-desc">Hand-beaded with cultural precision, elegant design for any occasion.</p>
+                    <div class="card-footer">
+                        <span class="price">KSh 850</span>
+                        <a href="[https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Beaded%20Necklace](https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Beaded%20Necklace)" class="whatsapp-btn-sm">
+                            <i class="fa-brands fa-whatsapp"></i> Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="card">
+                <div class="card-img">
+                    <img src="[https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&auto=format&fit=crop)" alt="Leather Wallet">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Hand-stitched Wallet</h3>
+                    <p class="card-desc">Premium leather-feel finish. Durable, slim, and sophisticated.</p>
+                    <div class="card-footer">
+                        <span class="price">KSh 1,450</span>
+                        <a href="[https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Hand-stitched%20Wallet](https://wa.me/254790500904?text=Hi%20ASK%2C%20I%20want%20to%20order%20Hand-stitched%20Wallet)" class="whatsapp-btn-sm">
+                            <i class="fa-brands fa-whatsapp"></i> Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About -->
+<section id="about">
+    <div class="container">
+        <div class="about-flex">
+            <div style="flex: 1;">
+                <h2 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;">Our Mission</h2>
+                <p>ASK is dedicated to bridging the gap between exceptional Kenyan makers and discerning customers in Nairobi. We believe "local" should also mean "premium" and "fast". Our Local Products Dropshipping Model (LPDM) ensures that you get high-quality items without the wait.</p>
+                <ul class="how-works">
+                    <li>
+                        <div class="step-num">1</div>
+                        <div><strong>List:</strong> We curate only the best makers.</div>
+                    </li>
+                    <li>
+                        <div class="step-num">2</div>
+                        <div><strong>Order:</strong> You shop via WhatsApp or our site.</div>
+                    </li>
+                    <li>
+                        <div class="step-num">3</div>
+                        <div><strong>Deliver:</strong> We handle the logistics in record time.</div>
+                    </li>
+                </ul>
+            </div>
+            <div style="flex: 1;">
+                <img src="[https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&auto=format&fit=crop)" alt="Quality Delivery" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <p style="margin-bottom: 20px;">Have questions about our products or need a custom order? Chat with us directly on WhatsApp for the fastest response.</p>
+                <p><strong>Phone:</strong> +254 790 500 904</p>
+                <p><strong>Location:</strong> Nairobi, Kenya</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="[https://wa.me/254790500904](https://wa.me/254790500904)"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+                <br>
+                <a href="[https://wa.me/254790500904](https://wa.me/254790500904)" class="btn btn-primary">
+                    <i class="fa-brands fa-whatsapp"></i> Chat Now
+                </a>
+            </div>
+            <div class="contact-form">
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="formName" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="formPhone" placeholder="0712..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Product of Interest</label>
+                        <select id="formProduct">
+                            <option value="Not Specified">Select a product</option>
+                            <option value="Turmeric Soap">Turmeric Glowing Soap</option>
+                            <option value="Flower Pots">Flower Pots Set</option>
+                            <option value="Ceramic Plate">Ceramic Serving Plate</option>
+                            <option value="Coffee Beans">Coffee Beans</option>
+                            <option value="Beaded Necklace">Beaded Necklace</option>
+                            <option value="Hand-stitched Wallet">Hand-stitched Wallet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message / Delivery Address</label>
+                        <textarea id="formMessage" rows="4" placeholder="How can we help?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Order Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p>&copy; <span id="year"></span> ASK - Local Premium Products. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<!-- Mobile Floating CTA -->
+<a href="[https://wa.me/254790500904](https://wa.me/254790500904)" class="whatsapp-float">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- Toast Notification -->
+<div id="toast">Opening WhatsApp to complete your order...</div>
+
+<script>
+    // Set Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile Menu Toggle (Simplified)
+    document.querySelector('.hamburger').addEventListener('click', () => {
+        alert('Menu feature: Home, Products, About, Contact');
+    });
+
+    // Form Handling
+    const orderForm = document.getElementById('orderForm');
+    const toast = document.getElementById('toast');
+
+    orderForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('formName').value;
+        const phone = document.getElementById('formPhone').value;
+        const product = document.getElementById('formProduct').value;
+        const message = document.getElementById('formMessage').value;
+
+        const whatsappBase = "[https://wa.me/254790500904](https://wa.me/254790500904)";
+        const text = `Hi ASK, I am ${name}. I want to order: ${product}. Phone: ${phone}. ${message}`;
+        const encodedText = encodeURIComponent(text);
+        
+        const finalUrl = `${whatsappBase}?text=${encodedText}`;
+
+        // Show Toast
+        toast.className = "show";
+        
+        // Wait a moment then redirect
+        setTimeout(() => {
+            toast.className = toast.className.replace("show", "");
+            window.open(finalUrl, '_blank');
+        }, 1500);
+    });
+
+    // Smooth Scroll Logic
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
